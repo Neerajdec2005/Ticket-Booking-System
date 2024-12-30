@@ -1,0 +1,264 @@
+* {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .page{
+    padding:40px;
+  }
+  .login{
+    margin-left:20%;
+    margin-right:20%;
+    margin-top:40px;
+  }
+  
+  .adde{
+    margin-top:10%;
+    margin-right:20%;
+    margin-left:20%;
+  }
+  .carom,.busy,.trusy,.flisy{
+    margin-top:50px;
+    margin-right:60px;
+    margin-left:60px;
+    margin-bottom:40px;
+  }
+  .body-bus{
+    background-image: url("photos/Movie/b5.jpg");
+    background-size: cover;
+  }
+  .body-train{
+    background-image: url("photos/Movie/b6.jpg");
+    background-size: cover;
+  }.body-flight{
+    background-image: url("photos/Movie/b1.jpg");
+    background-size: cover;
+  }
+  
+  
+
+#seat1 {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.screen {
+  margin: 20px auto;
+  width: 80%;
+  height: 30px;
+  background: #ddd;
+  border-radius: 10px;
+  font-weight: bold;
+  line-height: 30px;
+}
+
+#seatCanvas {
+  border: 1px solid #ccc;
+  margin: 20px auto;
+  display: block;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.legend div span {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.legend .available span {
+  background-color: #444;
+  border-radius: 7px;
+}
+
+.legend .selected span {
+  background-color: #6c63ff;
+  border-radius: 7px;
+}
+
+.legend .occupied span {
+  background-color: #ff6b6b;
+  border-radius: 7px;
+}
+
+.button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#but1 {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#but1:hover {
+  opacity: 0.9;
+}
+
+.total-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+#seat2 {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.bus {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  width: 80%;
+}
+
+.bus-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.seat {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seat.available {
+  background-color: #444;
+}
+
+.seat.selected {
+  background-color: #6c63ff;
+}
+
+.seat.occupied {
+  background-color: #ff6b6b;
+  cursor: not-allowed;
+}
+
+.button-container1 {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#but2 {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#but2:hover {
+  opacity: 0.9;
+}
+
+.total-container1 {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.aisle {
+  width: 20px;
+  background-color: #ccc;
+  margin: 0 5px;
+}
+
+
+.seat-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.seatx {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.seatx.booked {
+  background-color: #dc3545;
+  cursor: not-allowed;
+}
+
+.seatx.selected {
+  background-color: #ffc107;
+}
+
+.booking-info {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}

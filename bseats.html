@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Seat Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        #seat2 {
+            font-family:'Times New Roman', Times, serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .bus {
+            display: flex;
+            flex-direction: column;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .bus-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .seat {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .seat.available {
+            background-color: #444;
+        }
+
+        .seat.selected {
+            background-color: #6c63ff;
+        }
+
+        .seat.occupied {
+            background-color: #ff6b6b;
+            cursor: not-allowed;
+        }
+
+        .button-container1 {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        #but2 {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #but2:hover {
+            opacity: 0.9;
+        }
+
+        .total-container1 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #fff;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .aisle {
+            width: 20px;
+            background-color: #ccc;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body id="seat2">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">Ticket Booking System</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="movie.html">Movie</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="bus.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Travel
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="bus.html">Bus</a></li>
+                  <li><a class="dropdown-item" href="train.html">Train</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="flight.html">Flight</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" onclick="mega()">Admin-Panel</button>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <div class="container1">
+        <h1>Bus Seat Booking</h1>
+        <div class="bus" id="busContainer">
+
+        </div>
+        <div class="total-container1" id="totalPrice">Total: ₹0.00</div>
+    </div>
+
+    <div class="button-container1">
+        <button onclick="bookSeats()" id="but2">Book Selected Seats</button>
+    </div>
+    <script>
+        const rows = 8; 
+        const colsLeft = 3;
+        const colsRight = 3; 
+        const seatSize = 50; 
+
+        const busContainer = document.getElementById('busContainer');
+        const totalPriceEl = document.getElementById('totalPrice');
+
+        const events = JSON.parse(localStorage.getItem('events1')) || [];
+        const currentIndex = parseInt(localStorage.getItem('currentIndex')) || 0;
+        const selectedEvent = events[currentIndex] || {};
+        const pricePerSeat = parseFloat(selectedEvent.link || 0);
+
+        const busSeatsKey = `busSeats_${currentIndex}`;
+        const seats = JSON.parse(localStorage.getItem(busSeatsKey)) || Array.from({ length: rows }, () =>
+            Array.from({ length: colsLeft + colsRight }, () => 'available')
+        );
+
+        function drawSeats() {
+            busContainer.innerHTML = ''; 
+            for (let row = 0; row < rows; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'bus-row';
+
+                for (let col = 0; col < colsLeft; col++) {
+                    const seat = document.createElement('div');
+                    seat.className = `seat ${seats[row][col]}`;
+                    seat.onclick = () => handleSeatClick(row, col);
+                    rowDiv.appendChild(seat);
+                }
+
+                const aisle = document.createElement('div');
+                aisle.className = 'aisle';
+                rowDiv.appendChild(aisle);
+
+                for (let col = colsLeft; col < colsLeft + colsRight; col++) {
+                    const seat = document.createElement('div');
+                    seat.className = `seat ${seats[row][col]}`;
+                    seat.onclick = () => handleSeatClick(row, col);
+                    rowDiv.appendChild(seat);
+                }
+
+                busContainer.appendChild(rowDiv);
+            }
+        }
+
+        function handleSeatClick(row, col) {
+            if (seats[row][col] === 'occupied') {
+                return;
+            }
+
+            seats[row][col] = seats[row][col] === 'selected' ? 'available' : 'selected';
+            drawSeats();
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            let totalSelected = 0;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < colsLeft + colsRight; col++) {
+                    if (seats[row][col] === 'selected') {
+                        totalSelected++;
+                    }
+                }
+            }
+            const totalPrice = totalSelected * pricePerSeat;
+            totalPriceEl.textContent = `Total: ₹${totalPrice.toFixed(2)}`;
+        }
+        function bookSs() {
+        let bookedSeats = 0;
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < colsLeft+colsRight; col++) {
+                if (seats[row][col] === 'occupied') {
+                    bookedSeats++;
+                }
+            }
+        }
+        events[currentIndex].seat = bookedSeats;
+        localStorage.setItem('events1', JSON.stringify(events));
+        
+    }
+
+        function bookSeats() {
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < colsLeft + colsRight; col++) {
+                    if (seats[row][col] === 'selected') {
+                        seats[row][col] = 'occupied';
+                    }
+                }
+            }
+
+            localStorage.setItem(busSeatsKey, JSON.stringify(seats));
+            drawSeats();
+            updateTotalPrice();
+            alert('Seats booked successfully!');
+        }bookSs();
+        drawSeats();
+        updateTotalPrice();
+    </script>
+</body>
+</html>
